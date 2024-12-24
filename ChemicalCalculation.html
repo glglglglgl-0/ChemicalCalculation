@@ -1,0 +1,1548 @@
+<html>
+<meta charset="UTF-8">
+
+<head>
+
+    <title>计算</title>
+
+    <style>
+        input::-webkit-outer-spin-button, 
+        input::-webkit-inner-spin-button { 
+            -webkit-appearance: none; 
+        }
+
+        .inputValueStyle {
+            width: 100px;
+            text-align: center;
+        }
+
+        .tdUnitStyle {
+            text-align: left;
+        }
+
+        .tdNameStyle {
+            text-align: right;
+        }
+
+        .mainButtonStyle {
+            width: 120px;
+            height: 30px;
+        }
+        .spanTitleStyle{
+            text-align: center;
+        }
+
+    </style>
+
+    <script>
+        function getValue(elementID) {
+            return Number(document.getElementById(elementID).value);
+        }
+        function putValue(elementID, Value) {
+            document.getElementById(elementID).value = Value;
+        }
+        function upOrDown(event){
+			var e = window.event;
+			var ID = event.id;
+			var numIndex;
+			for(var i = 0;i < ID.length;i++){
+				if(!isNaN(ID.charAt(i))){
+					numIndex = i;
+					break;
+				}
+			}
+			var Name = ID.substring(0,numIndex);
+			var Num = Number(ID.substring(numIndex,ID.length));
+			var upID = Name + String(Num - 1);
+			var downID = Name + String(Num + 1);
+			if(e.keyCode == 38){ //向上
+				document.getElementById(upID).focus();
+				//document.getElementById(upID).select();	//选中数据
+			}else if(e.keyCode == 40 || e.keyCode == 13){//向下
+				document.getElementById(downID).focus();
+				//document.getElementById(downID).select();             //
+			}
+		}
+
+    </script>
+</head>
+
+<body>
+
+    <div id="main">
+
+    <!--
+        <input type="button" value="TEST" class="mainButtonStyle"
+            onclick="
+                document.getElementById('ID').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                TEST_QK();
+            "
+        >
+        <br>
+    -->
+
+        <input type="button" value="PVA树脂" class="mainButtonStyle"
+            onclick="
+                document.getElementById('PVA').style.display='inline-block';
+                document.getElementById('main').style.display='none';
+                PVA_QK();
+            "
+        >
+        <br>
+
+        <input type="button" value="4%浓度" class="mainButtonStyle"
+            onclick="
+                document.getElementById('C').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                PVA_w_QK();
+            "
+        >
+        <br>
+
+        <input type="button" value="高聚合度" class="mainButtonStyle"
+            onclick="
+                document.getElementById('YT').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                JH_GJ_QK();
+            "
+        >
+        <br>
+
+        <input type="button" value="低聚合度" class="mainButtonStyle"
+            onclick="
+                document.getElementById('DJ').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                JH_DJ_QK();
+            "
+        >
+        <br>
+
+        <input type="button" value="聚合率" class="mainButtonStyle"
+            onclick="
+                document.getElementById('EF').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                JH_EF_QK();
+            "
+        >
+        <br>
+
+        <input type="button" value="水含量" class="mainButtonStyle"
+            onclick="
+                document.getElementById('Water').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                Water_QK();
+            "
+        >
+        <br>
+
+        <input type="button" value="硫酸含量" class="mainButtonStyle"
+            onclick="
+                document.getElementById('LS').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                H2SO4_QK();
+            "
+        >
+        <br>
+
+        <input type="button" value="醋酸含量" class="mainButtonStyle"
+            onclick="
+                document.getElementById('CS').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                HAc_QK();
+            "
+        >
+        <br>
+
+        <input type="button" value="混合碱" class="mainButtonStyle"
+            onclick="
+                document.getElementById('HHJ').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                HHJ_QK();
+            "
+        >
+        <br>
+
+        <input type="button" value="ppm &lt;-&gt; mg/m3" class="mainButtonStyle"
+            onclick="
+                document.getElementById('PTM').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                ppm_mgm3_QK();
+            "
+        >
+        <br>
+
+        <input type="button" value="PVAC中水含量" class="mainButtonStyle"
+            onclick="
+                document.getElementById('PVAC_H2O').style.display = 'inline-block';
+                document.getElementById('main').style.display = 'none';
+                //TEST_QK();
+            "
+        >
+        <br>
+
+    </div>
+
+    
+<!--
+    <div id="ID" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("ID").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('ID').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">TEST</h3>
+
+        <table>
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">Name</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="id1" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">Unit</span></td>
+            </tr>
+
+            <tr>
+                <td class="tdNameStyle"></td>
+                <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="TEST_QK()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+
+        </table>
+
+        <script type="text/javascript">
+            function TEST_QK(){
+                document.getElementById("id1").value = "";
+            }
+        </script>
+
+    </div>
+-->
+
+    <div id="PVA" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("PVA").style.display = "none";
+        </script>
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('PVA').style.display='none';
+            document.getElementById('main').style.display='';
+            ">
+
+            <h3 class="h3Style">PVA树脂</h3>
+
+            <table>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">称量瓶质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA1" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+            
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">样品质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA2" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">干燥后质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA3" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">挥发分</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA4" onkeydown="upOrDown(this)" onfocus="PVA_HFF()"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+                </tr>
+    
+                
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">空烧杯质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA5" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">补水后质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA6" onkeydown="upOrDown(this)" onfocus="PVA_BS()"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+    
+                
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">NaAc样品质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA7" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">NaAc标液浓度</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA8" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">mol/L</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">NaAc空白消耗</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA9" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">NaAc样品消耗</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA10" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">NaAc含量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA11" onkeydown="upOrDown(this)" onfocus="PVA_NaAc()"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+                </tr>
+                
+                
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">纯度</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA12" onkeydown="upOrDown(this)" onfocus="PVA_CD()"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">Ac样品质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA13" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">Ac标液浓度</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA14" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">mol/L</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">Ac空白消耗</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA15" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">Ac样品消耗</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA16" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">Ac含量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA17" onkeydown="upOrDown(this)" onfocus="PVA_Ac()"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">醇解度</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA18" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">%(mol/mol)</span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle"></span></td>
+                    <td class="spanTitleStyle"><span class="spanNameStyle">膨润度</span></td>
+                    <td class="tdNameStyle"><span class="spanNameStyle"></span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">包布与皮筋质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA19" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">样品质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA20" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">脱水后总质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA21" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">膨润度</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA22" onkeydown="upOrDown(this)" onfocus="PVA_PRD()"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle"></span></td>
+                    <td class="spanTitleStyle"><span class="spanNameStyle">NaOH含量</span></td>
+                    <td class="tdNameStyle"><span class="spanNameStyle"></span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">NaOH浓度</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA23" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">mol/L</span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">样品质量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA24" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">空白消耗体积</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA25" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">样品消耗体积</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA26" onkeydown="upOrDown(this)"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+                </tr>
+
+                <tr>
+                    <td class="tdNameStyle"><span class="spanNameStyle">NaOH含量</span></td>
+                    <td class="tdValueStyle"><input  class="inputValueStyle" id="PVA27" onkeydown="upOrDown(this)" onfocus="PVA_NaOH()"></td>
+                    <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+                </tr>
+    
+                <tr>
+                    <td class="tdNameStyle"></td>
+                    <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="PVA_QK()"></td>
+                    <td class="tdUnitStyle"></td>
+                </tr>
+
+            </table>
+
+        <script type="text/javascript">
+            function PVA_QK(){ //PVA数据输入框清空
+				for(var i = 1; i <= 27;i++){
+					document.getElementById("PVA" + String(i)).value="";
+				}
+			}
+			function PVA_NaAc(){ //PVA中NaAc含量计算
+				var nd = getValue("PVA8");//NaAc标液浓度
+				var tj = getValue("PVA10");//NaAc样品消耗体积
+				var kbtj = getValue("PVA9");//NaAc空白消耗体积
+				var zl = getValue("PVA7");//NaAc样品质量
+				if(nd != 0 && tj != 0 && kbtj != 0 && zl != 0){
+					var res=8.205 * nd * (tj - kbtj) / zl;
+					putValue("PVA11",res.toFixed(2));//NaAc含量
+				}
+			}
+			function PVA_HFF(){ //PVA挥发分计算
+				var kk=getValue("PVA1");//称量瓶质量
+				var yp=getValue("PVA2");//样品质量
+				var hh=getValue("PVA3");//干燥后质量
+				if(kk != 0 && yp != 0 && hh != 0){
+					var res=(kk+yp-hh) * 100 / yp;
+					putValue("PVA4",res.toFixed(2));//挥发分
+				}
+			}
+			function PVA_BS(){ //PVA黏度补水计算
+				var hff=getValue("PVA4");//挥发分
+				var ksb=getValue("PVA5");//空烧杯质量
+				if(ksb != 0 && hff != 0){
+					var bsh = (100-hff) * 2 + ksb;
+					putValue("PVA6",bsh.toFixed(2));//补水后质量
+				}
+			}
+			function PVA_CD(){ //PVA纯度计算
+				var hff = getValue("PVA4");//挥发分
+				var naac = getValue("PVA11");//NaAc含量
+				if(hff != 0 && naac != 0){
+					var cd = 100 - hff - naac;
+					putValue("PVA12",cd.toFixed(2));//纯度
+				}
+			}
+			function PVA_Ac(){ //PVA残存Ac-及醇解度计算
+				var Aczl=getValue("PVA13");//Ac样品质量
+				var Acch=getValue("PVA14");//Ac标液浓度
+				var Ackbtj=getValue("PVA15");//Ac空白消耗体积
+				var Actj=getValue("PVA16");//Ac样品消耗体积
+				var cd = getValue("PVA12");//纯度
+				if(Aczl != 0 && Acch != 0 && Ackbtj != 0 && Actj != 0 && cd != 0 ){
+					var m=Aczl * (cd / 100);
+					var cv=Acch * (Actj-Ackbtj) * 0.001;
+					var Ac=(cv * 60.05 /m)*100;//%
+					var cjd=(m-86.05*cv)*100/(m-42*cv);//%(mol/mol)
+					putValue("PVA17",Ac.toFixed(2));//Ac含量
+					putValue("PVA18",cjd.toFixed(3));//醇解度，保留小数点后3位
+				}
+			}
+            function PVA_PRD(){
+                var m1 = getValue("PVA19");//包布与皮筋质量
+                var m2 = getValue("PVA20");//样品质量
+                var m3 = getValue("PVA21");//脱水后总质量
+                var cd = getValue("PVA12");//纯度
+                if(m1 != 0 && m2 != 0 && m3 != 0 && cd != 0){
+                    var PRD = (m3 - m1) * 100 / (m2 * cd / 100);//膨润度
+                    putValue("PVA22",PRD.toFixed(1));
+                }
+            }
+            function PVA_NaOH(){
+                var naoh = getValue("PVA23");//NaOH浓度
+                var ypzl = getValue("PVA24");//样品质量
+                var kbtj = getValue("PVA25");//空白消耗体积
+                var yptj = getValue("PVA26");//样品消耗体积
+                if(naoh != 0 && ypzl != 0 && kbtj != 0 && yptj != 0){
+                    var NaOH = ((kbtj - yptj) * naoh * 0.1 * 40) / ypzl;
+                    putValue("PVA27",NaOH.toFixed(2));
+                }
+            }
+        </script>
+    </div>
+
+    <div id="C" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("C").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('C').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">4%浓度</h3>
+
+        <table>
+		
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">烘干后质量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C1" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">称量瓶质量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C2" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">样品质量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C3" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">质量浓度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C4" onkeydown="upOrDown(this)" onfocus="PVA_w()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">烘干后质量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C5" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">称量瓶质量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C6" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">样品质量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C7" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">质量浓度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C8" onkeydown="upOrDown(this)" onfocus="PVA_w()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">平均质量浓度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C9" onkeydown="upOrDown(this)" onfocus="PVA_w_PJ()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+    
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">补正系数</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C10" value="0.2" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mPa·s/0.01%</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">粘度仪粘度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C11" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mP·s</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">补正后粘度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="C12" onkeydown="upOrDown(this)" onfocus="PVA_w_JZND()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mP·s</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"></td>
+                <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="PVA_w_QK()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+    
+        </table>
+
+        <script type="text/javascript">
+            function PVA_w(){//PVA溶质浓度计算
+				var before1 = getValue("C2");//称量瓶质量1
+				var after1 = getValue("C1");//烘干后质量1
+				var ypzl1 = getValue("C3");//样品质量1
+				if(before1 != 0 && after1 != 0 && ypzl1 != 0){
+					var zlnd1 = (after1 - before1) * 100 / ypzl1;
+					putValue("C4",zlnd1.toFixed(2));//质量浓度1
+				}
+				var before2 = getValue("C6");//称量瓶质量2
+				var after2 = getValue("C5");//烘干后质量2
+				var ypzl2 = getValue("C7");//样品质量2
+				if(before2 != 0 && after2 != 0 && ypzl2 != 0){
+					var zlnd2 = (after2 - before2) * 100 / ypzl2;
+					putValue("C8",zlnd2.toFixed(2));//质量浓度2
+				}
+			}
+			function PVA_w_PJ(){//平均质量浓度
+				var zlnd1 = getValue("C4");//质量浓度1
+				var zlnd2 = getValue("C8");//质量浓度2
+				if(zlnd1 != 0 && zlnd2 != 0){
+					var pjnd = (zlnd1 + zlnd2) / 2;
+					putValue("C9",pjnd.toFixed(2));//平均质量浓度
+				}
+			}
+			function PVA_w_QK(){
+				for(var i = 1; i < 13;i++){
+					if(i == 10) continue;
+					document.getElementById("C" + String(i)).value="";
+				}
+			}
+			function PVA_w_JZND(){ //质量浓度校正黏度计算
+				var xs = getValue("C10");//校正系数
+				var nd = getValue("C11");//粘度仪测试黏度
+				var zlnd = getValue("C9");//平均质量浓度
+				if(xs != 0 && nd != 0 && zlnd != 0){
+					var bznd = nd + (4 - zlnd) * 100 * xs;
+					putValue("C12",bznd.toFixed(1));//校正后黏度
+				}
+			}
+        </script>
+
+    </div>
+
+    <div id="YT" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("YT").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('YT').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">高聚合度</h3>
+
+        <table>
+		
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">PVAC含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="YT1" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+    
+            
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">落球时间</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="YT2" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">s</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">聚合度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="YT3" onkeydown="upOrDown(this)" onfocus="JH_GJ_JHD()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+            
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">VAC含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="YT4" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">吹出率</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="YT5" onkeydown="upOrDown(this)" onfocus="JH_GJ_CCL()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+    
+    
+            <tr>
+                <td class="tdNameStyle"></td>
+                <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="JH_GJ_QK()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+    
+        </table>
+
+        <script type="text/javascript">
+            function JH_GJ_JHD(){//高聚合度计算
+				var pvac = getValue("YT1");//PVAC含量
+				var Time = getValue("YT2");//落球时间
+				if(pvac != 0 && Time != 0){
+					var p = 0.00365 * pvac + 0.768;
+					var u = 54.85 * (7.86 - p) * Time;
+					var k2 = Math.log(u) / Math.log(10) - 0.08916 * pvac;
+					var PA = 3.257 + 0.4884 * Math.log(k2) / Math.log(10);
+					var JHD = Math.pow(10,PA);
+					putValue("YT3",JHD.toFixed(0));//聚合度
+				}
+			}
+			function JH_GJ_CCL(){//吹出率计算
+				var pvac = getValue("YT1");//PVAC含量
+				var vac = getValue("YT4");//VAC含量
+				if(pvac != 0 && vac != 0){
+					var ccl = pvac * 100 / (pvac + vac);
+					putValue("YT5",ccl.toFixed(2)); //吹出率
+				}
+			}
+			function JH_GJ_QK(){
+				document.getElementById("YT1").value="";
+				document.getElementById("YT2").value="";
+				document.getElementById("YT3").value="";
+				document.getElementById("YT4").value="";
+				document.getElementById("YT5").value="";
+			}
+        </script>
+
+    </div>
+
+    <div id="DJ" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("DJ").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('DJ').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">低聚合度</h3>
+
+        <table>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">PVAC含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="DJ1" onkeydown="upOrDown(this)" ></td>
+                <td class="tdUnitStyle">%</td>
+            </tr>
+            
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">碘量瓶质量m<sub>0</sub></span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="DJ2" onkeydown="upOrDown(this)" ></td>
+                <td class="tdUnitStyle">g</td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">试样质量m<sub>1</sub></span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="DJ3" onkeydown="upOrDown(this)" ></td>
+                <td class="tdUnitStyle">g</td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">碘量瓶和溶液总质量m<sub>2</sub></span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="DJ4" onkeydown="upOrDown(this)" ></td>
+                <td class="tdUnitStyle">g</td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">10mL溶液质量m<sub>3</sub></span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="DJ5" onkeydown="upOrDown(this)" ></td>
+                <td class="tdUnitStyle">g</td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">溶液PVAC浓度c</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="DJ6" onkeydown="upOrDown(this)" onfocus="JH_DJ_C()" ></td>
+                <td class="tdUnitStyle">g/100mL</td>
+            </tr>
+            
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">空白射流时间t<sub>0</sub></span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="DJ7" onkeydown="upOrDown(this)" ></td>
+                <td class="tdUnitStyle">s</td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">射流时间t</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="DJ8" onkeydown="upOrDown(this)" ></td>
+                <td class="tdUnitStyle">s</td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">特性粘度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="DJ9" onkeydown="upOrDown(this)" onfocus="JH_DJ_TXND()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">聚合度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="DJ10" onkeydown="upOrDown(this)" ></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"></td>
+                <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="JH_DJ_QK()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+    
+        </table>
+
+        <script type="text/javascript">
+            function JH_DJ_C(){
+				var pvac = getValue("DJ1");//PVAC含量
+				var m0 = getValue("DJ2");//碘量瓶质量m0
+				var m1 = getValue("DJ3");//试样质量m1
+				var m2 = getValue("DJ4");//碘量瓶和溶液总质量m2
+				var m3 = getValue("DJ5");//10mL溶液质量
+				if(pvac != 0 && m0 != 0 && m1 != 0 && m2 != 0 && m3 != 0){
+					var c = (m1 * m3 * pvac * 0.1) / (m2 - m0);
+					putValue("DJ6",c.toFixed(3)); //溶液中PVAC浓度
+				}
+			}
+			function JH_DJ_TXND(){//特性粘度计算
+				var c = getValue("DJ6");//溶液PVAC浓度
+				var t0 = getValue("DJ7");//空白射流时间t0
+				var t = getValue("DJ8");//射流时间t
+				if(t0 != 0 && t != 0 && c != 0){
+					var nr = t / t0;
+					var nsp = nr - 1;
+					var n = Math.sqrt(2 * (nsp - Math.log(nr))) / c;
+					var logPA = (Math.log10(n) - Math.log10(0.00317)) / 0.7044;
+					var JHD = Math.pow(10,logPA);
+					putValue("DJ9",n.toFixed(4));//特性黏度
+					putValue("DJ10",JHD.toFixed(0));//聚合度
+				}
+			}
+			function JH_DJ_QK(){
+				for(var i = 1; i < 11;i++){
+					document.getElementById("DJ" + String(i)).value="";
+				}
+			}
+        </script>
+
+    </div>
+
+    <div id="EF" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("EF").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('EF').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">聚合率</h3>
+
+        <table>
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">PVAC含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="EF1" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">CH<sub>3</sub>OH含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="EF2" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">VAC含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="EF3" onkeydown="upOrDown(this)" onfocus="JH_EF_JHL()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">聚合率</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="EF4" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+
+            <tr>
+                <td class="tdNameStyle"></td>
+                <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="JH_EF_QK()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+
+        </table>
+
+        <script type="text/javascript">
+            function JH_EF_JHL(){//二釜聚合率计算
+                var pvac = getValue("EF1");
+                var ch3oh = getValue("EF2");
+                if(pvac != 0 && ch3oh != 0){
+                    var vac = 100 - pvac - ch3oh;
+                    var jhl = pvac * 100 / (100 - ch3oh);
+                    putValue("EF3",vac.toFixed(2));
+                    putValue("EF4",jhl.toFixed(2));
+                }
+            }
+            function JH_EF_QK(){
+                document.getElementById("EF1").value = "";
+                document.getElementById("EF2").value = "";
+                document.getElementById("EF3").value = "";
+                document.getElementById("EF4").value = "";
+            }
+        </script>
+
+    </div>
+
+    <div id="Water" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("Water").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('Water').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">水含量</h3>
+
+        <table>
+			
+			<tr>
+			    <td class="tdNameStyle"><span class="spanNameStyle">滴定度</span></td>
+			    <td class="tdValueStyle"><input  class="inputValueStyle" id="Water1" onkeydown="upOrDown(this)" onfocus="Water_DDD()"></td>
+			    <td class="tdUnitStyle">mg/mL</td>
+			</tr>
+	
+			<tr>
+			    <td class="tdNameStyle"><span class="spanNameStyle">样品量</span></td>
+			    <td class="tdValueStyle"><input  class="inputValueStyle" id="Water2" onkeydown="upOrDown(this)" onfocus="Water_YPL()"></td>
+			    <td class="tdUnitStyle">g</td>
+			</tr>
+	
+			<tr>
+			    <td class="tdNameStyle"><span class="spanNameStyle">消耗体积</span></td>
+			    <td class="tdValueStyle"><input  class="inputValueStyle" id="Water3" onkeydown="upOrDown(this)" onfocus="Water_XHTJ()"></td>
+			    <td class="tdUnitStyle">mL</td>
+			</tr>
+	
+			<tr>
+			    <td class="tdNameStyle"><span class="spanNameStyle">水含量</span></td>
+			    <td class="tdValueStyle"><input  class="inputValueStyle" id="Water4" onkeydown="upOrDown(this)" onfocus="Water_SHL()"></td>
+			    <td class="tdUnitStyle">%</td>
+			</tr>
+			
+			<tr>
+			    <td class="tdNameStyle"></td>
+			    <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="Water_QK()"></td>
+			    <td class="tdUnitStyle"></td>
+			</tr>
+	
+	
+		</table>
+
+        <script type="text/javascript">
+            function Water_SHL(){//水含量计算
+				var ddd = getValue("Water1");//滴定度
+				var ypl = getValue("Water2");//样品量
+				var xhtj = getValue("Water3");//消耗体积
+				if(ddd != 0 && ypl != 0 && xhtj != 0){
+					var res = 0.1 * ddd * xhtj / ypl;
+					putValue("Water4",res.toFixed(4));//水含量
+				}
+			}
+
+			function Water_XHTJ(){//消耗体积计算
+				var ddd = getValue("Water1");//滴定度
+				var ypl = getValue("Water2");//样品量
+				var shl = getValue("Water4");//水含量
+				if(ddd != 0 && ypl != 0 && shl != 0){
+					var res = ypl * shl / (ddd * 0.1);
+					putValue("Water3",res.toFixed(4));//消耗体积
+				}
+			}
+
+			function Water_YPL(){//样品量计算
+				var ddd = getValue("Water1");//滴定度
+				var shl = getValue("Water4");//水含量
+				var xhtj = getValue("Water3");//消耗体积
+				if(ddd != 0 && shl != 0 && xhtj != 0){
+					var res = (0.1 * ddd * xhtj) / shl;
+					putValue("Water2",res.toFixed(4));//样品质量
+				}
+			}
+
+			function Water_DDD(){//滴定度计算
+				var ypl = getValue("Water2");//样品量
+				var xhtj = getValue("Water3");//消耗体积
+				var shl = getValue("Water4");//水含量
+				if(ypl != 0 && xhtj != 0 && shl != 0){
+					var res = (ypl * shl) / (0.1 * xhtj);
+					putValue("Water1",res.toFixed(4));//滴定度
+				}
+			}
+
+			function Water_QK(){
+				document.getElementById("Water1").value="";
+				document.getElementById("Water2").value="";
+				document.getElementById("Water3").value="";
+				document.getElementById("Water4").value="";
+			}
+        </script>
+
+    </div>
+
+    <div id="LS" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("LS").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('LS').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">硫酸含量</h3>
+
+        <table>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">样品量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="LS1" onkeydown="upOrDown(this)" onfocus="H2SO4_YPL()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">消耗体积</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="LS2" onkeydown="upOrDown(this)" onfocus="H2SO4_XHTJ()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+            </tr>
+    
+            
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">标液浓度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="LS3" onkeydown="upOrDown(this)" onfocus="H2SO4_BYND()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mol/L</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">硫酸含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="LS4" onkeydown="upOrDown(this)" onfocus="H2SO4_HL()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"></td>
+                <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="H2SO4_QK()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+    
+        </table>
+
+        <script type="text/javascript">
+            function H2SO4_HL(){//硫酸含量计算
+				var bynd = getValue("LS3");//标液浓度
+				var bytj = getValue("LS2");//消耗体积
+				var lszl = getValue("LS1");//样品质量
+				if(bynd != 0 && bytj != 0 && lszl != 0){
+					var lshl = 4.9 * bynd * bytj / lszl;
+					putValue("LS4",lshl.toFixed(2));//硫酸含量
+				}
+				
+			}
+			function H2SO4_XHTJ(){//消耗体积计算
+				var bynd = getValue("LS3");//标液浓度
+				var lszl = getValue("LS1");//样品质量
+				var lshl = getValue("LS4");//硫酸含量
+				if(bynd != 0 && lszl != 0 && lshl != 0){
+					var bytj = lszl * lshl / (bynd * 4.9);
+					putValue("LS2",bytj.toFixed(2));//消耗体积
+				}
+				H2SO4_HL();
+			}
+
+			function H2SO4_BYND(){//标液浓度计算
+				var xhtj = getValue("LS2");//消耗体积
+				var lshl = getValue("LS4");//硫酸含量
+				var lszl = getValue("LS1");//硫酸质量
+				if(xhtj != 0 && lshl != 0 && lszl != 0){
+					var res = (lshl * lszl) / (4.9 * xhtj);
+					putValue("LS3",res.toFixed(4));//标液浓度
+				}
+				H2SO4_HL();
+			}
+
+			function H2SO4_YPL(){//样品量计算
+				var xhtj = getValue("LS2");//消耗体积
+				var bynd = getValue("LS3");//标液浓度
+				var lshl = getValue("LS4");//硫酸含量
+				if(xhtj != 0 && bynd != 0 && lshl != 0){
+					var res = (4.9 * bynd * xhtj) / lshl;
+					putValue("LS1",res.toFixed(4));//硫酸质量
+				}
+			}
+
+			function H2SO4_QK(){
+				document.getElementById("LS1").value="";
+				document.getElementById("LS2").value="";
+				document.getElementById("LS3").value="";
+				document.getElementById("LS4").value="";
+			}
+        </script>
+
+    </div>
+
+    <div id="CS" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("CS").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('CS').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">醋酸含量</h3>
+
+        <table>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">样品量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="CS1" onkeydown="upOrDown(this)" onfocus="HAc_YPL()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">消耗体积</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="CS2" onkeydown="upOrDown(this)" onfocus="HAc_XHTJ()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+            </tr>
+    
+            
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">标液浓度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="CS3" onkeydown="upOrDown(this)" onfocus="HAc_BYND()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mol/L</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">醋酸含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="CS4" onkeydown="upOrDown(this)" onfocus="HAc_HL()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"></td>
+                <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="HAc_QK()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+    
+        </table>
+
+        <script type="text/javascript">
+            function HAc_HL(){//醋酸含量计算
+				var bynd = getValue("CS3");//标液浓度
+				var bytj = getValue("CS2");//消耗体积
+				var cszl = getValue("CS1");//样品质量
+				if(bynd != 0 && bytj != 0 && cszl != 0){
+					var cshl = 6.005 * bynd * bytj / cszl;
+					putValue("CS4",cshl.toFixed(2));//醋酸含量
+				}
+				
+			}
+			function HAc_XHTJ(){//消耗体积计算
+				var bynd = getValue("CS3");//标液浓度
+				var cszl = getValue("CS1");//样品质量
+				var cshl = getValue("CS4");//醋酸含量
+				if(bynd != 0 && cszl != 0 && cshl != 0){
+					var bytj = cszl * cshl / (bynd * 6.005);
+					putValue("CS2",bytj.toFixed(2));//消耗体积
+				}
+			}
+
+			function HAc_BYND(){//标液浓度计算
+				var xhtj = getValue("CS2");//消耗体积
+				var cshl = getValue("CS4");//醋酸含量
+				var cszl = getValue("CS1");//醋酸质量
+				if(xhtj != 0 && cshl != 0 && cszl != 0){
+					var res = (cshl * cszl) / (6.005 * xhtj);
+					putValue("CS3",res.toFixed(4));//标液浓度
+				}
+			}
+
+			function HAc_YPL(){//样品量计算
+				var xhtj = getValue("CS2");//消耗体积
+				var bynd = getValue("CS3");//标液浓度
+				var cshl = getValue("CS4");//醋酸含量
+				if(xhtj != 0 && bynd != 0 && cshl != 0){
+					var res = (6.005 * bynd * xhtj) / cshl;
+					putValue("CS1",res.toFixed(4));//醋酸质量
+				}
+			}
+
+			function HAc_QK(){
+				document.getElementById("CS1").value="";
+				document.getElementById("CS2").value="";
+				document.getElementById("CS3").value="";
+				document.getElementById("CS4").value="";
+			}
+        </script>
+
+    </div>
+
+    <div id="HHJ" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("HHJ").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('HHJ').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">混合碱</h3>
+
+        <table>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">标液浓度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="HHJ1" onkeydown="upOrDown(this)" ></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mol/L</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">V<sub>1</sub>消耗体积</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="HHJ2" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">V<sub>2</sub>消耗体积</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="HHJ3"  onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">样品量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="HHJ4"  onkeydown="upOrDown(this)" onfocus="HHJ_Check_YPL_ML()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">样品量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="HHJ5"  onkeydown="upOrDown(this)" onfocus="HHJ_Check_YPL_G()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mL</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle" id="HHJ_Name_NaOH">NaOH</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="HHJ6" onkeydown="upOrDown(this)" onfocus="HHJ()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle" id="HHJ_DW_NaOH">%或g/L</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle" id="HHJ_Name_Na2CO3">Na<sub>2</sub>CO<sub>3</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="HHJ7" onkeydown="upOrDown(this)" onfocus="HHJ()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle" id="HHJ_DW_Na2CO3">%或g/L</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle" id="HHJ_Name_NaHCO3">NaHCO<sub>3</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="HHJ8" onkeydown="upOrDown(this)" onfocus="HHJ()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle" id="HHJ_DW_NaHCO3">%或g/L</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"></td>
+                <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="HHJ_QK()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+
+        </table>
+
+        <script type="text/javascript">
+            function HHJ(){//混合碱计算
+				var c = getValue("HHJ1");//标液浓度
+				var v1 = getValue("HHJ2");//V1体积
+				var v2 = getValue("HHJ3");//V2体积
+				var ypl_G = getValue("HHJ4");//样品量单位g
+				var ypl_ML = getValue("HHJ5");//样品量单位mL
+				if(ypl_G != 0 && ypl_ML != 0){
+					alert("样品量只能选择质量或体积一个值");
+					document.getElementById("HHJ4").value="";
+					document.getElementById("HHJ5").value="";
+					document.getElementById("HHJ4").focus();
+				}
+				if(c != 0 && ypl_G != 0 && ypl_ML == 0){ //%含量计算
+					document.getElementById("HHJ_Name_NaOH").innerHTML = "NaOH含量"
+					document.getElementById("HHJ_Name_Na2CO3").innerHTML = "Na<sub>2</sub>CO<sub>3</sub>含量"
+					document.getElementById("HHJ_Name_NaHCO3").innerHTML = "NaHCO<sub>3</sub>含量"
+					document.getElementById("HHJ_DW_NaOH").innerHTML = "%"
+					document.getElementById("HHJ_DW_Na2CO3").innerHTML = "%"
+					document.getElementById("HHJ_DW_NaHCO3").innerHTML = "%"
+					if(v1 > v2){ //NaOH和Na2CO3混合
+						var NaOH = ((v1 - v2) * 0.001 * c * 40) * 100 / ypl_G;
+						var Na2CO3 = (v2 * 0.001 * c * 106) * 100 / ypl_G;
+						putValue("HHJ6",NaOH.toFixed(2));//NaOH含量
+						putValue("HHJ7",Na2CO3.toFixed(2));//Na2CO3含量
+						putValue("HHJ8","-");//NaHCO3含量
+					}else if(v1 == v2){ //只有Na2CO3
+						var Na2CO3 = (v1 * 0.001 * c * 106) * 100 / ypl_G;
+						putValue("HHJ6","-");//NaOH含量
+						putValue("HHJ7",Na2CO3.toFixed(2));//Na2CO3含量
+						putValue("HHJ8","-");//NaHCO3含量
+					}else if(v2 > v1){ // Na2CO3和NaHCO3混合
+						var Na2CO3 =  (v1 * 0.001 * c * 106) * 100 / ypl_G;
+						var NaHCO3 = ((v2 - v1) * 0.001 * c * 84) * 100 / ypl_G;
+						putValue("HHJ6","-");//NaOH含量
+						putValue("HHJ7",Na2CO3.toFixed(2));//Na2CO3含量
+						putValue("HHJ8",NaHCO3.toFixed(2));//NaHCO3含量
+					}
+				}
+				if(c != 0 && ypl_ML != 0 && ypl_G == 0){ //g/L浓度计算
+					document.getElementById("HHJ_Name_NaOH").innerHTML = "NaOH浓度"
+					document.getElementById("HHJ_Name_Na2CO3").innerHTML = "Na<sub>2</sub>CO<sub>3</sub>浓度"
+					document.getElementById("HHJ_Name_NaHCO3").innerHTML = "NaHCO<sub>3</sub>浓度"
+					document.getElementById("HHJ_DW_NaOH").innerHTML = "g/L"
+					document.getElementById("HHJ_DW_Na2CO3").innerHTML = "g/L"
+					document.getElementById("HHJ_DW_NaHCO3").innerHTML = "g/L"
+					if(v1 > v2){ //NaOH和Na2CO3混合
+						var NaOH = ((v1 - v2) * 0.001 * c * 40) * 1000 / ypl_ML;
+						var Na2CO3 = (v2 * 0.001 * c * 106) * 1000 / ypl_ML;
+						putValue("HHJ6",NaOH.toFixed(2));//NaOH含量
+						putValue("HHJ7",Na2CO3.toFixed(2));//Na2CO3含量
+						putValue("HHJ8","-");//NaHCO3含量
+					}else if(v1 == v2){ //只有Na2CO3
+						var Na2CO3 = (v1 * 0.001 * c * 106) * 1000 / ypl_ML;
+						putValue("HHJ6","-");//NaOH含量
+						putValue("HHJ7",Na2CO3.toFixed(2));//Na2CO3含量
+						putValue("HHJ8","-");//NaHCO3含量
+					}else if(v2 > v1){ // Na2CO3和NaHCO3混合
+						var Na2CO3 =  (v1 * 0.001 * c * 106) * 1000 / ypl_ML;
+						var NaHCO3 = ((v2 - v1) * 0.001 * c * 84) * 1000 / ypl_ML;
+						putValue("HHJ6","-");//NaOH含量
+						putValue("HHJ7",Na2CO3.toFixed(2));//Na2CO3含量
+						putValue("HHJ8",NaHCO3.toFixed(2));//NaHCO3含量
+					}
+				}
+			}
+
+			function HHJ_Check_YPL_G(){//检查样品量是质量还是体积
+				var ypl_G = getValue("HHJ4");
+				if(ypl_G != 0){//在质量样品量输入的数据
+					document.getElementById("HHJ6").focus();
+				}
+			}
+
+			function HHJ_Check_YPL_ML(){//检查样品量是质量还是体积
+				var ypl_mL = getValue("HHJ5");
+				if(ypl_mL != 0){//在体积样品量输入的数据
+					document.getElementById("HHJ6").focus();
+				}
+			}
+
+			function HHJ_QK(){
+				document.getElementById("HHJ1").value="";
+				document.getElementById("HHJ2").value="";
+				document.getElementById("HHJ3").value="";
+				document.getElementById("HHJ4").value="";
+				document.getElementById("HHJ5").value="";
+				document.getElementById("HHJ6").value="";
+				document.getElementById("HHJ7").value="";
+				document.getElementById("HHJ8").value="";
+				document.getElementById("HHJ_Name_NaOH").innerHTML = "NaOH"
+				document.getElementById("HHJ_Name_Na2CO3").innerHTML = "Na<sub>2</sub>CO<sub>3</sub>"
+				document.getElementById("HHJ_Name_NaHCO3").innerHTML = "NaHCO<sub>3</sub>"
+				document.getElementById("HHJ_DW_NaOH").innerHTML = "%或g/L"
+				document.getElementById("HHJ_DW_Na2CO3").innerHTML = "%或g/L"
+				document.getElementById("HHJ_DW_NaHCO3").innerHTML = "%或g/L"
+			}
+        </script>
+
+    </div>
+
+    <div id="PTM" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("PTM").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('PTM').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">ppm &lt;---&gt; mg/m<sup>3</sup></h3>
+
+        <table>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="PTM1" onkeydown="upOrDown(this)" onfocus="mgm3_to_ppm()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">ppm</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">摩尔质量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="PTM2" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g/mol</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">温度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="PTM3" value="0" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">℃</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">气压</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="PTM4" value="101325" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">Pa</span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">浓度</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="PTM5" onkeydown="upOrDown(this)" onfocus="ppm_to_mgm3()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">mg/m<sup>3</sup></span></td>
+            </tr>
+    
+            <tr>
+                <td class="tdNameStyle"></td>
+                <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="ppm_mgm3_QK()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+            </table>
+
+        <script type="text/javascript">
+           function ppm_to_mgm3(){
+				var ppm = getValue("PTM1");//ppm含量
+				var num = getValue("PTM2");//摩尔质量
+				var tem = getValue("PTM3");//温度
+				var pre = getValue("PTM4");//压强
+				if(num != 0 && ppm != 0 && pre != 0){
+					var res = pre * ppm * 0.001 * num / (8.314 * (273.15 + tem));
+					putValue("PTM5",res.toFixed(1));//mg/m3浓度
+				}
+			}
+			function mgm3_to_ppm(){
+				var c = getValue("PTM5");//浓度 mg/m3
+				var num = getValue("PTM2");//分子量
+				var tem = getValue("PTM3");//温度
+				var pre = getValue("PTM4");//压强
+				if(c != 0 && num != 0 && pre != 0){
+					var res = (c * 8.314 * (tem + 273.15)) / (pre * 0.001 * num);
+					putValue("PTM1",res.toFixed(1));//ppm含量
+				}
+			}
+			function ppm_mgm3_QK(){
+				document.getElementById("PTM1").value="";
+				document.getElementById("PTM2").value="";
+				document.getElementById("PTM5").value="";
+	
+			}
+        </script>
+
+    </div>
+
+    <div id="PVAC_H2O" style="display: inline-block;">
+        <script type="text/javascript">
+            document.getElementById("PVAC_H2O").style.display = "none";
+        </script>
+
+        <input type="button" value="返回" class="mainButtonStyle"
+            onclick="
+            document.getElementById('PVAC_H2O').style.display = 'none';
+            document.getElementById('main').style.display = ''
+            ">
+
+        <h3 class="h3Style">PVAC中水含量</h3>
+
+        <table>
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">溶剂甲醇水含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="pvac-water1" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">溶剂甲醇质量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="pvac-water2" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">溶质PVAC样品质量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="pvac-water3" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">g</span></td>
+            </tr>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">溶解后溶液水含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="pvac-water4" onkeydown="upOrDown(this)"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+
+            <tr>
+                <td class="tdNameStyle"><span class="spanNameStyle">PVAC样品中水含量</span></td>
+                <td class="tdValueStyle"><input  class="inputValueStyle" id="pvac-water5" onkeydown="upOrDown(this)" onfocus="PVAC_Water()"></td>
+                <td class="tdUnitStyle"><span class="spanUnitStyle">%</span></td>
+            </tr>
+
+            <tr>
+                <td class="tdNameStyle"></td>
+                <td class="tdValueStyle"><input type="button" class="inputValueStyle" value="清空" onclick="PVAC_Water_QK()"></td>
+                <td class="tdUnitStyle"></td>
+            </tr>
+
+        </table>
+
+        <script type="text/javascript">
+            function PVAC_Water(){
+                var rjshl = getValue("pvac-water1");//溶剂水含量
+                var rjzl = getValue("pvac-water2");//溶剂质量
+                var pvac = getValue("pvac-water3");//溶质质量
+                var rjhry = getValue("pvac-water4");//溶解后溶液水含量
+                if(rjshl != 0 && rjzl != 0 && pvac != 0 && rjhry != 0){
+                    var pvac_water =( (rjhry / 100) * (rjzl + pvac) - (rjshl / 100) * rjzl ) * 100 / pvac;
+                    putValue("pvac-water5",pvac_water.toFixed(2));
+                }
+            }
+            function PVAC_Water_QK(){
+                document.getElementById("pvac-water1").value = "";
+                document.getElementById("pvac-water2").value = "";
+                document.getElementById("pvac-water3").value = "";
+                document.getElementById("pvac-water4").value = "";
+                document.getElementById("pvac-water5").value = "";
+            }
+        </script>
+
+    </div>
+
+</body>
+
+</html>
